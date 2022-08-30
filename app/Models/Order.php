@@ -11,4 +11,9 @@ class Order extends Model
 
     public const STATUS_PENDING = 'pending';
     public const STATUS_PLACED = 'placed';
+
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
 }

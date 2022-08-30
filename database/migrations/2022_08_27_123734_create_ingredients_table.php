@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer(column:'init_quantity', unsigned:true);
             $table->integer(column:'current_quantity', unsigned:true);
+            $table->tinyInteger('notified')->default(0);
             $table->timestamps();
         });
     }

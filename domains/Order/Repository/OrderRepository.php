@@ -8,6 +8,9 @@ use App\Models\Order;
 class OrderRepository
 {
 
+    public function __construct(private Order $order)
+    {}
+
     public function createOrder(User $user): Order
     {
         $order = new Order;
@@ -24,5 +27,15 @@ class OrderRepository
         $order->save();
 
         return $order;
+    }
+
+    public function getFailedOrders()
+    {
+        $date = (new \DateTime())
+            ->modify('-5 minutes');
+        return $this->order
+            ->where('status', 'pending')
+            ->where('created_at', '<', $date->format('Y-m-d H:i:s'))
+            ->get();
     }
 }

@@ -16,15 +16,18 @@ class IngredientSeeder extends Seeder
     {
         DB::table('ingredients')->insert([
             'name' => 'Beef',
-            'quantity' => 20000,
+            'init_quantity' => 20000,
+            'current_quantity' => 20000,
         ]);
         DB::table('ingredients')->insert([
             'name' => 'Cheese',
-            'quantity' => 5000,
+            'init_quantity' => 5000,
+            'current_quantity' => 5000,
         ]);
         DB::table('ingredients')->insert([
             'name' => 'Cheese',
-            'quantity' => 1000,
+            'init_quantity' => 1000,
+            'current_quantity' => 1000,
         ]);
     }
 }
