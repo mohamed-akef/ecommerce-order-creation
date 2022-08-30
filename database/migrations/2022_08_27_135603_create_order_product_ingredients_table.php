@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(OrderProduct::class, 'order_product_id');
             $table->integer(column:'quantity', unsigned:true);
-            $table->enum('unit', ['kg','g']);
             $table->enum('status', ['reserved', 'used', 'spoiled', 'reverted']);
             $table->timestamps();
         });

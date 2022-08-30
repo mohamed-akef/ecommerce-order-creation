@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
-use Foodics\Order\Handler\CreateHandler;
+use App\Models\User;
+use Foodics\Order\Command\CreateCommand;
 use Illuminate\Http\Request;
 
 class CreateController extends Controller
@@ -13,13 +14,15 @@ class CreateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, CreateHandler $createOrderHandler)
+    public function __invoke(Request $request, CreateCommand $createOrderHandler)
     {
         /**
          * @todo add validation
          * @todo create a DTO for order data and pass it to the handler instead of array
+         * @todo should extract user from session
          */
-        $createOrderHandler->handle($request->get('products'));
+        $user = User::find(1);
+        $createOrderHandler->handle($request->get('products'), $user);
 
         return response(status:201);
     }

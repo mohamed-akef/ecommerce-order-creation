@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer(column:'quantity', unsigned:true);
-            $table->enum('unit', ['kg','g']);
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lookup_ingredients');
+        Schema::dropIfExists('ingredients');
     }
 };

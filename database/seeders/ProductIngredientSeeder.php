@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProductIngredient;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,23 +17,20 @@ class ProductIngredientSeeder extends Seeder
         /**
          * @todo use laravel factory better than static values
          */
-        ProductIngredient::factory()->create([
+        DB::table('product_ingredients')->insert([
             'product_id' => 1,
             'ingredient_id' => 1,
             'quantity' => 150,
-            'unit' => 'g'
         ]);
-        ProductIngredient::factory()->create([
+        DB::table('product_ingredients')->insert([
             'product_id' => 1,
-            'ingredient_id' => 1,
-            'quantity' => 150,
-            'unit' => 'g'
+            'ingredient_id' => 2,
+            'quantity' => 30,
         ]);
-        ProductIngredient::factory()->create([
+        DB::table('product_ingredients')->insert([
             'product_id' => 1,
             'ingredient_id' => 3,
             'quantity' => 20,
-            'unit' => 'g'
         ]);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ingredient;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class IngredientSeeder extends Seeder
 {
@@ -14,20 +14,17 @@ class IngredientSeeder extends Seeder
      */
     public function run(): void
     {
-        Ingredient::factory()->create([
+        DB::table('ingredients')->insert([
             'name' => 'Beef',
-            'quantity' => 20,
-            'unit' => 'kg'
+            'quantity' => 20000,
         ]);
-        Ingredient::factory()->create([
+        DB::table('ingredients')->insert([
             'name' => 'Cheese',
-            'quantity' => 5,
-            'unit' => 'kg'
+            'quantity' => 5000,
         ]);
-        Ingredient::factory()->create([
+        DB::table('ingredients')->insert([
             'name' => 'Cheese',
-            'quantity' => 1,
-            'unit' => 'kg'
+            'quantity' => 1000,
         ]);
     }
 }
