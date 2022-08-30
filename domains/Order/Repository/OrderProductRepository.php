@@ -9,11 +9,12 @@ use App\Models\Product;
 class OrderProductRepository
 {
 
-    public function createProductOrder(Order $order, Product $product): OrderProduct
+    public function createOrderProduct(Order $order, Product $product, int $quantity): OrderProduct
     {
         $orderProduct = new OrderProduct;
         $orderProduct->order_id = $order->id;
         $orderProduct->product_id = $product->id;
+        $orderProduct->quantity = $quantity;
         $orderProduct->save();
 
         return $orderProduct;

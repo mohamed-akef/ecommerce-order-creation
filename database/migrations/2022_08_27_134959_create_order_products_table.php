@@ -19,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Order::class, 'order_id');
             $table->foreignIdFor(Product::class, 'product_id');
+            $table->integer(column:'quantity', unsigned:true);
             $table->timestamps();
         });
     }

@@ -21,12 +21,7 @@ class CreateCommand
         $order = $this->orderRepository->createOrder($user);
         foreach ($orderProducts as $orderProduct) {
             $product = $this->productModel->find($orderProduct['product_id']);
-            /**
-             * @note we can cut all Ingredient quantity in one operation but that will make code more complex
-             */
-            for ($i = 0; $i < $orderProduct['quantity']; $i++) {
-                $this->addProductToOrder->execute($order, $product);
-            }
+            $this->addProductToOrder->execute($order, $product, $orderProduct['quantity']);
         }
 
         return $this->orderRepository->placeOrder($order);

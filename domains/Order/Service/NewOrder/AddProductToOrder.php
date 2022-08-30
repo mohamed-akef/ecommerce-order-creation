@@ -17,13 +17,13 @@ class AddProductToOrder
         private ProductIngredient $productIngredient
     ) {}
 
-    public function execute(Order $order,Product $product): void
+    public function execute(Order $order,Product $product, int $quantity): void
     {
-        $orderProduct = $this->orderProductRepo->createProductOrder($order, $product);
+        $orderProduct = $this->orderProductRepo->createOrderProduct($order, $product, $quantity);
 
         $productIngredients = $this->productIngredient->where('product_id', $product->id)->get();
         foreach ($productIngredients as $productIngredient){
-            $this->orderProductIngredientRepo->addIngredientToOrder($productIngredient, $orderProduct);
+            $this->orderProductIngredientRepo->addIngredientToOrder($productIngredient, $orderProduct, $quantity);
         }
     }
 }

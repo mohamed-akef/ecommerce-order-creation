@@ -17,8 +17,11 @@ class OrderProductIngredientRepository
     )
     {}
 
-    public function addIngredientToOrder(ProductIngredient $productIngredient, OrderProduct $orderProduct)
-    {
+    public function addIngredientToOrder(
+        ProductIngredient $productIngredient,
+        OrderProduct $orderProduct,
+        int $quantity
+    ) {
         /**
          * @todo add the unitType into the Ingredient table
          */
@@ -27,7 +30,8 @@ class OrderProductIngredientRepository
             DB::beginTransaction();
             $ingredient = $this->ingredient->find($productIngredient->ingredient_id);
 
-            $newQuantity = $calculator->deduct($ingredient->quantity, $productIngredient->quantity);
+            $deductQuantity = $productIngredient->quantity * $quantity;
+            $newQuantity = $calculator->deduct($ingredient->quantity, $deductQuantity);
             $this->createNew($orderProduct, $productIngredient->quantity, 'reserved');
 
             $ingredient->quantity = $newQuantity;
