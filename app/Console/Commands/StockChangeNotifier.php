@@ -28,6 +28,9 @@ class StockChangeNotifier extends Command
      */
     public function handle(Ingredient $ingredient)
     {
+        /**
+         * @todo increase the uncompleted orders also here to avoid multiple notifying
+         */
         $ingredientsReachedLimit = $ingredient
             ->whereColumn('current_quantity', '<','init_quantity')
             ->where('notified', 0)

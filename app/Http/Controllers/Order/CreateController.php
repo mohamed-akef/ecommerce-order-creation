@@ -14,10 +14,10 @@ class CreateController extends Controller
      * Provision a new web server.
      *
      * @param Request       $request
-     * @param CreateCommand $createOrderHandler
+     * @param CreateCommand $createOrderCommand
      * @return Response
      */
-    public function __invoke(Request $request, CreateCommand $createOrderHandler): Response
+    public function __invoke(Request $request, CreateCommand $createOrderCommand): Response
     {
         /**
          * @todo add validation
@@ -25,7 +25,7 @@ class CreateController extends Controller
          * @todo should extract user from session
          */
         $user = User::find(1);
-        $order = $createOrderHandler->handle($request->get('products'), $user);
+        $order = $createOrderCommand->handle($request->get('products'), $user);
         $response = [
             'order_id' => $order->id
         ];
