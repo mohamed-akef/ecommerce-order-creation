@@ -9,11 +9,11 @@ This application build in top of laravel 9 and dockerized by sail
 3. Use [the](https://www.getpostman.com/collections/05d64d2ee31c2a162cad) collection to test the API.
 
 ## Main Challenges
-* The main challenge here is every order may have multiple products that already have many ingredients which are shared between multiple products, and with concurrent orders, the ingredients will be updated from different orders at the same time
+1. * The main challenge here is every order may have multiple products that already have many ingredients which are shared between multiple products, and with concurrent orders, the ingredients will be updated from different orders at the same time
 * The first solution we can do is to use DB transaction to guarantee the consistency of the ingredients but this solution will have some challenges and the main one is the high probability of facing a DeadLock Issue because overlap between orders
 * My proposed solution is to add every update ingredient in a separate transaction to avoid any DeadLock issues but will increase the proccessing time
 
-* The other part is notify when the stock reach limits and that will be done by worker will run every 5m to check if the current stock  < init stock, and it was not notified before(by key in db) will send the email.
+2. * The other part is notify when the stock reach limits and that will be done by worker will run every 5m to check if the current stock  < init stock, and it was not notified before(by key in db) will send the email.
 
 ## DB structure
 ![Screenshot from 2022-08-31 01-04-30](https://user-images.githubusercontent.com/1524321/187562633-ccd74ed4-4aec-43a7-93fe-9dc830cdf760.png)
