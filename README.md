@@ -17,7 +17,7 @@ This application build in top of laravel 9 and dockerized by sail
 * The other part is notify when the stock reach limits and that will be done by worker will run every 5m to check if the current stock  < init stock, and it was not notified before(by key in db) will send the email.
 
 ## DB structure
-![Screenshot from 2022-08-31 01-04-30](https://user-images.githubusercontent.com/1524321/187562633-ccd74ed4-4aec-43a7-93fe-9dc830cdf760.png)
+![Screenshot from 2022-09-01 01-43-10](https://user-images.githubusercontent.com/1524321/187803823-280d1508-2efd-48d0-b6db-ee566159d5e3.png)
 
 ## Request life cycle
 
