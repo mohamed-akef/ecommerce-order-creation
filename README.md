@@ -21,7 +21,7 @@ This application build in top of laravel 9 and dockerized by sail
 
 ## Request life cycle
 
-* `\App\Http\Controllers\Order\CreateController` will call the Command(DDD concept).
+* `\App\Http\Controllers\Order\CreateController` will call the Command.
 * `\Foodics\Order\Command\CreateCommand`:
 * * will create the order with `pending` status.
 * * Then will call the Service to add the products into it`\Foodics\Order\Service\NewOrder\AddProductToOrder`.
