@@ -25,9 +25,9 @@ This application build in top of laravel 9 and dockerized by sail
 * `\Foodics\Order\Command\CreateCommand`:
 * * will create the order with `pending` status.
 * * Then will call the Service to add the products into it`\Foodics\Order\Service\NewOrder\AddProductToOrder`.
-* ** Add ProductOrder Row then:
-* ** start transaction and select the ingredient then deduct the quantity from it
-* ** update ingredient and insert row for ProductOrderIngredient then close the transaction
+* * * Add ProductOrder Row then:
+* * * start transaction and select the ingredient then deduct the quantity from it
+* * * update ingredient and insert row for ProductOrderIngredient then close the transaction
 
 ## Workers Part
 * The first one is `FailedOrdersCleaner` it responsible to check any order that create from `5m` and the status still `pending`, so the worker will return the ingredients to stock again and change order status to `canceled`.
