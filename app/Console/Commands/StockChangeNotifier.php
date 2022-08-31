@@ -21,18 +21,13 @@ class StockChangeNotifier extends Command
      */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle(Ingredient $ingredient)
+    public function handle(Ingredient $ingredient): void
     {
         /**
-         * @todo increase the uncompleted orders also here to avoid multiple notifying
+         * @todo add the pending orders also here to get more accurate notifying
          */
         $ingredientsReachedLimit = $ingredient
-            ->whereColumn('current_quantity', '<','init_quantity')
+            ->whereColumn('current_quantity', '<','init_quantity/2')
             ->where('notified', 0)
             ->get();
         foreach ($ingredientsReachedLimit as $ingredientReachedLimit) {

@@ -2,14 +2,13 @@
 
 namespace Foodics\Order\Service\NewOrder;
 
-use App\Models\Ingredient;
-use App\Models\Order,
+use App\Models\Ingredient,
+    App\Models\Order,
     App\Models\Product,
-    App\Models\ProductIngredient,
     Foodics\Order\Repository\OrderProductIngredientRepository,
     Foodics\Order\Repository\OrderProductRepository,
-    Foodics\Order\Service\QuantityCalculator\CalculatorFactory,
     Illuminate\Support\Facades\DB;
+use App\Models\ProductIngredient;
 
 class AddProductToOrder
 {
@@ -18,8 +17,7 @@ class AddProductToOrder
         private OrderProductRepository $orderProductRepo,
         private OrderProductIngredientRepository $orderProductIngredientRepo,
         private ProductIngredient $productIngredient,
-        private Ingredient $ingredient,
-        private CalculatorFactory $calculatorFactory
+        private Ingredient $ingredient
     ) {}
 
     public function execute(Order $order,Product $product, int $quantity): void
@@ -28,20 +26,24 @@ class AddProductToOrder
 
         $productIngredients = $this->productIngredient->where('product_id', $product->id)->get();
         foreach ($productIngredients as $productIngredient) {
-            /**
-             * @todo add the unitType into the Ingredient table
-             */
-            $calculator = $this->calculatorFactory->getCalculator('weight');
             try {
                 DB::beginTransaction();
+
+                /**
+                 * @var Ingredient $ingredient
+                 */
                 $ingredient = $this->ingredient->find($productIngredient->ingredient_id);
 
                 $deductQuantity = $productIngredient->quantity * $quantity;
-                $newQuantity = $calculator->deduct($ingredient->current_quantity, $deductQuantity);
-                $this->orderProductIngredientRepo->createNew($orderProduct, $deductQuantity, 'reserved');
 
-                $ingredient->current_quantity = $newQuantity;
+                $this->orderProductIngredientRepo->createNew($orderProduct, $deductQuantity, 'reserved');
+                /**
+                 * @note we can add the check to notifying admin here also, but it will not be accurate because of
+                 *       failed orders.
+                 */
+                $ingredient->deduct($deductQuantity);
                 $ingredient->save();
+
                 DB::commit();
                 /**
                  * @todo didn't catch the root exception but catch every one and handel every issue separated

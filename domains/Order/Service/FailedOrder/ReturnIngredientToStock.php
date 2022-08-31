@@ -3,33 +3,29 @@
 namespace Foodics\Order\Service\FailedOrder;
 
 use App\Models\Ingredient,
-    Foodics\Order\Service\QuantityCalculator\CalculatorFactory,
     Illuminate\Support\Facades\DB,
     App\Models\Order;
 
 class ReturnIngredientToStock
 {
 
-    public function __construct(
-        private Ingredient $ingredient,
-        private CalculatorFactory $calculatorFactory
-    ) {}
+    public function __construct(private Ingredient $ingredient) {}
 
     public function execute(Order $order): void
     {
         foreach ($order->orderProducts() as $orderProduct) {
             foreach ($orderProduct->orderProductIngredients() as $orderProductIngredient) {
-                $calculator = $this->calculatorFactory->getCalculator('weight');
+                if ($orderProductIngredient->status === 'reverted') {
+                    continue;
+                }
                 try {
                     DB::beginTransaction();
+                    /**
+                     * @var Ingredient $ingredient
+                     */
                     $ingredient = $this->ingredient->find($orderProductIngredient->ingredient_id);
 
-                    $newQuantity = $calculator->increase(
-                        $orderProductIngredient->quantity,
-                        $ingredient->current_quantity
-                    );
-
-                    $ingredient->current_quantity = $newQuantity;
+                    $ingredient->increase($orderProductIngredient->quantity);
                     $ingredient->save();
 
                     $orderProductIngredient->status = 'reverted';
