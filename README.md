@@ -33,4 +33,4 @@ This application build in top of laravel 9 and dockerized by sail
 
 ## Workers Part
 * The first one is `FailedOrdersCleaner` it responsible to check any order that create from `5m` and the status still `pending`, so the worker will return the ingredients to stock again and change order status to `canceled`.
-* The other one is `StockChangeNotifier` it will check (`current_stock` + uncompleted orders stock) < `init_stock` and notify flag is not flagged then will send email to admin
+* The other one is `StockChangeNotifier` it will check (`current_stock` + uncompleted orders stock) < (`init_stock`/2) and `notify` flag is not flagged then will send email to admin and update `notify` to be flagged
