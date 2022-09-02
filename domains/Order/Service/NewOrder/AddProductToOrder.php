@@ -8,6 +8,7 @@ use App\Models\Ingredient,
     Foodics\Order\Repository\OrderProductIngredientRepository,
     Foodics\Order\Repository\OrderProductRepository,
     Illuminate\Support\Facades\DB;
+use App\Models\OrderProductIngredient;
 use App\Models\ProductIngredient;
 
 class AddProductToOrder
@@ -20,9 +21,9 @@ class AddProductToOrder
         private Ingredient $ingredient
     ) {}
 
-    public function execute(Order $order,Product $product, int $quantity): void
+    public function execute(Order $order,Product $product, int $count): void
     {
-        $orderProduct = $this->orderProductRepo->createOrderProduct($order, $product, $quantity);
+        $orderProduct = $this->orderProductRepo->createOrderProduct($order, $product, $count);
 
         $productIngredients = $this->productIngredient->where('product_id', $product->id)->get();
         foreach ($productIngredients as $productIngredient) {
@@ -34,9 +35,13 @@ class AddProductToOrder
                  */
                 $ingredient = $this->ingredient->find($productIngredient->ingredient_id);
 
-                $deductQuantity = $productIngredient->quantity * $quantity;
+                $deductQuantity = $productIngredient->quantity * $count;
 
-                $this->orderProductIngredientRepo->createNew($orderProduct, $deductQuantity, 'reserved');
+                $this->orderProductIngredientRepo->createNew(
+                    $orderProduct,
+                    $deductQuantity,
+                    OrderProductIngredient::STATUS_RESERVED
+                );
                 /**
                  * @note we can add the check to notifying admin here also, but it will not be accurate because of
                  *       failed orders.

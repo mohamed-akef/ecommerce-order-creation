@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class OrderProductIngredient extends Model
 {
     use HasFactory;
+
+    public const STATUS_RESERVED = 'reserved';
 }

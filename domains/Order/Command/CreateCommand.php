@@ -21,6 +21,9 @@ class CreateCommand
         $order = $this->orderRepository->createOrder($user);
         foreach ($productsData as $productData) {
             $product = $this->productModel->find($productData['product_id']);
+            if ($product === null) {
+                throw new \RuntimeException('Product not Found');
+            }
             $this->addProductToOrder->execute($order, $product, $productData['quantity']);
         }
 

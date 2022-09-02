@@ -10,7 +10,7 @@ class OrderProductIngredientRepository
 
     public function __construct() {}
 
-    public function createNew(OrderProduct $orderProduct,int $quantity, string $status)
+    public function createNew(OrderProduct $orderProduct,int $quantity, string $status): void
     {
         $orderProductIngredient = new OrderProductIngredient();
         $orderProductIngredient->order_product_id = $orderProduct->id;
