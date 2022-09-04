@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Order;
-use App\Models\OrderProduct;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -41,7 +40,6 @@ class CreateOrderTest extends TestCase
             $order->status
         );
 
-        $orderProducts = OrderProduct::where('order_id', $orderId)->get();
         $this->assertEquals(
             Order::STATUS_PLACED,
             $order->status
@@ -64,7 +62,7 @@ class CreateOrderTest extends TestCase
             ]
         );
 
-        $response->assertStatus(500);
+        $response->assertStatus(422);
     }
 
     public function testFailCreationByStockLimit(): void

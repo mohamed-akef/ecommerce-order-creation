@@ -42,6 +42,7 @@ class AddProductToOrder
                     $deductQuantity,
                     OrderProductIngredient::STATUS_RESERVED
                 );
+
                 /**
                  * @note we can add the check to notifying admin here also, but it will not be accurate because of
                  *       failed orders.
